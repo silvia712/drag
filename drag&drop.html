@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+
+            <button onclick="ordenar();">ACEPTAR</button>
+            
+
+
+            <div id="botones" style="display: none;">
+                    <button style="background-color: red;" id="rojo" name="rojo" onclick="ordenar(this.name)">ROJO</button>
+                    <button style="background-color: blue;" id="azul" name="azul" onclick="ordenar(this.name)">AZUL</button>
+                    <button style="background-color: green;" id="verde" name="verde" onclick="ordenar(this.name)">VERDE</button>
+                    <button style="background-color: yellow;" id="amarillo" name="amarillo" onclick="ordenar(this.name)">AMARILLO</button>
+            </div>
+        
+            <button id="equipos" style="display: none;" onclick="generar();">GENERAR EQUIPOS</button>
+
+
+
+            <div id="resuls" style="display: none;">
+                    <div id="resultado"></div>
+                    <div id="resultado1" style="border: solid red;height: 100px; padding-top: 50px;" ></div>
+                    <div id="resultado2" style="border: solid red;height: 100px; padding-top: 50px;" ></div>
+                    <div id="resultado3" style="border: solid red;height: 100px; padding-top: 50px;" ></div>
+            </div>
+
+
+
+</body>
+</html>
+
+
+
+
+
+<script>
+
+
+            function ordenar(name){
+
+
+                        //VISIBLE DIVS
+                        document.getElementById("botones").style.display="block";
+                        document.getElementById("resuls").style.display="block";
+                        document.getElementById("equipos").style.display="block";
+
+
+                    var alumnos = [
+                            { nombre:'rojo', rojo: 20, azul: 30, verde:50, amarillo:75 },
+                            { nombre:'azul', rojo: 75, azul: 400, verde:30, amarillo:10 },
+                            { nombre:'verde', rojo: 40, azul: 75, verde:60, amarillo:45 },
+                            { nombre:'amarillo', rojo: 60, azul: 10, verde:80, amarillo:40 },
+                            { nombre:'rojo', rojo: 20, azul: 30, verde:50, amarillo:75 },
+                            { nombre:'azul', rojo: 75, azul: 500, verde:30, amarillo:10 },
+                            { nombre:'verde', rojo: 40, azul: 75, verde:60, amarillo:45 },
+                            { nombre:'amarillo', rojo: 60, azul: 10, verde:80, amarillo:40 }
+                            ];
+
+
+                            document.getElementById("resultado").innerHTML="";
+
+                            
+                    
+                        //ORDENA POR COLOR
+                        for (var i=0; i<alumnos.length;i++){
+
+                                if (name=='rojo'){
+
+                                        alumnos.sort(function (a, b) {
+                                        if (a.rojo > b.rojo){
+                                            return -1;
+                                        }
+                                        if (a.rojo < b.rojo){
+                                            return 1;
+                                        }
+                                        return 0;
+                                        }); 
+                                
+                                }else if (name=='azul'){
+                                    
+                                        alumnos.sort(function (a, b) {
+                                        if (a.azul > b.azul){
+                                            return -1;
+                                        }
+                                        if (a.azul < b.azul){
+                                            return 1;
+                                        }
+                                        return 0;
+                                        }); 
+
+                                }else if (name=='verde'){
+
+                                        alumnos.sort(function (a, b) {
+                                        if (a.verde > b.verde){
+                                            return -1;
+                                        }
+                                        if (a.verde < b.verde){
+                                            return 1;
+                                        }
+                                        return 0;
+                                        }); 
+
+                                }else if (name=='amarillo'){
+
+                                        alumnos.sort(function (a, b) {
+                                        if (a.amarillo > b.amarillo){
+                                            return -1;
+                                        }
+                                        if (a.amarillo < b.amarillo){
+                                            return 1;
+                                        }
+                                        return 0;
+                                        }); 
+                                    
+                                } 
+
+                                var resultado=alumnos[i].nombre+"-> Rojo: " + alumnos[i].rojo+" Azul: "+alumnos[i].azul+" Verde: "+alumnos[i].verde+" Amarillo: "+alumnos[i].amarillo;     
+                                
+                                var nodo=document.createElement("div"); 
+                                var textoNodo=document.createTextNode(resultado); 
+                                nodo.appendChild(textoNodo);
+                                document.getElementById('resultado').appendChild(nodo);
+
+                             /*    nodo.setAttribute("draggable","true");
+                                nodo.setAttribute("id","alumno"+i);
+                                nodo.setAttribute("ondragstart","arrastre(this.id);");   */
+                                // y desaparece del array
+
+                                }
+
+                                return alumnos;
+
+                }
+
+
+                function arrastre(id) {
+                        
+                            var id=document.getElementById(id);
+                            var caja2=document.getElementById("resultado2");
+                            
+                            caja2.addEventListener('dragover',e=>{
+                                e.preventDefault();
+                                console.log("over");
+                            }); 
+
+                            caja2.addEventListener('drop',e=>{
+                                e.preventDefault();
+                                console.log("suelta");
+                                caja2.appendChild(id);
+                            }); 
+                        
+                } 
+
+
+
+
+                function generar(){
+
+                    var equipos=ordenar();
+                    
+                    console.log(equipos);
+
+                    var grupo1 = new Array();
+                    var grupo2= new Array(); 
+            
+
+                    var azules = equipos.filter(function(element){return element.nombre == "azul";});
+                    var rojos = equipos.filter(function(element){return element.nombre == "rojo";});
+                    var verdes = equipos.filter(function(element){return element.nombre == "verde";});
+                    var amarillos = equipos.filter(function(element){return element.nombre == "amarillo";});
+
+
+                    grupo1.push(azules[0]);
+                    delete azules[0];
+                    console.log(azules);
+                   
+                    /* grupo1.push(rojos[0]);
+                    
+                    grupo1.push(verdes[0]);
+                    
+                    grupo1.push(amarillos[0]);
+                   
+                   
+                    grupo2.push(azules[0]);
+                   
+                    grupo2.push(rojos[0]);
+                  
+                    grupo2.push(verdes[0]);
+                  
+                    grupo2.push(amarillos[0]); */
+                  
+                  
+
+
+                   /*  for(var i=0; i<equipos.length;i++){
+
+                        if( equipos[i].nombre=="azul"){
+                            
+                            var nombre=equipos[i].nombre;
+                            console.log(nombre);
+                             var esta=resultado1.includes(nombre);
+                            console.log(esta); 
+                         
+                            
+                                if(esta==false){
+
+
+                                    resultado1.push(equipos[i]);
+
+
+
+
+                                
+                                }else{
+                                    resultado2.push(equipos[i]);
+                                }
+
+                        } else{
+                            console.log("otro color");
+                        }    */
+                      
+
+                        /*    var resultado=equipos[i].nombre+"-> Rojo: " + equipos[i].rojo+" Azul: "+equipos[i].azul+" Verde: "+equipos[i].verde+" Amarillo: "+equipos[i].amarillo;  */    
+                        /* var nodo=document.createElement("div"); 
+                        var textoNodo=document.createTextNode(resultado); 
+                        nodo.appendChild(textoNodo);
+                        document.getElementById('resultado1').appendChild(nodo);
+
+                        nodo.setAttribute("draggable","true");
+                        nodo.setAttribute("id","alumno"+i);
+                        nodo.setAttribute("ondragstart","arrastre(this.id);");  
+                        // y desaparece del array */
+                    
+
+                    
+                    console.log(amarillos);
+                    console.log(verdes);
+                    console.log(rojos);
+
+                    console.log(grupo1);
+                    /* console.log(grupo2); */
+
+                }
+
+
+
+
+
+</script>
